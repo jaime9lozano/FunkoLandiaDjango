@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Funko, Categoria
 
-# Register your models here.
+admin.site.register(Funko)
+admin.site.register(Categoria)

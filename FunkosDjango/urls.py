@@ -15,9 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
 from django.urls import path, include
+from funkos.views import custom_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('funkos.urls')),
+    path('login/', custom_login, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', lambda request: redirect('api/funkos/', permanent=True)),
 ]

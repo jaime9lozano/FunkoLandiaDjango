@@ -1,5 +1,7 @@
 # funkos/urls.py
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from .views import FunkoListCreate, FunkoRetrieveUpdateDestroy, CategoriaListCreate, CategoriaRetrieveUpdateDestroy
 
 urlpatterns = [
@@ -8,3 +10,4 @@ urlpatterns = [
     path('categorias/', CategoriaListCreate.as_view(), name='categoria-list-create'),
     path('categorias/<int:pk>/', CategoriaRetrieveUpdateDestroy.as_view(), name='categoria-retrieve-update-destroy'),
 ]
+urlpatterns = format_suffix_patterns(urlpatterns)
