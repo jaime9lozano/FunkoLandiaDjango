@@ -7,6 +7,16 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
         fields = ['id', 'nombre']
 
+    def create(self, validated_data):
+        # Puedes agregar lógica especial para la creación si es necesario
+        return Categoria.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        # Actualiza los campos del modelo Categoria
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.save()
+        return instance
+
 class FunkoSerializer(serializers.ModelSerializer):
     categoria = serializers.PrimaryKeyRelatedField(queryset=Categoria.objects.all())
 
