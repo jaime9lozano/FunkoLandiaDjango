@@ -22,7 +22,7 @@ class FunkoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Funko
-        fields = ['id', 'nombre', 'categoria', 'precio', 'cantidad']
+        fields = ['id', 'nombre', 'categoria', 'precio', 'cantidad', 'imagen']
 
     def create(self, validated_data):
         # Puedes hacer algo especial aquí si necesitas
@@ -34,5 +34,6 @@ class FunkoSerializer(serializers.ModelSerializer):
         instance.categoria = validated_data.get('categoria', instance.categoria)
         instance.precio = validated_data.get('precio', instance.precio)
         instance.cantidad = validated_data.get('cantidad', instance.cantidad)
+        instance.imagen = validated_data.get('imagen', instance.imagen)
         instance.save()
         return instance
