@@ -19,6 +19,8 @@ from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
 from django.urls import path, include
 from funkos.views import custom_login
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +28,4 @@ urlpatterns = [
     path('login/', custom_login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', lambda request: redirect('api/funkos/', permanent=True)),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

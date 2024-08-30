@@ -1,0 +1,143 @@
+<!-- templates/comprar_funko.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar {{ funko.nombre }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            max-width: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .product-details {
+            text-align: center;
+        }
+        .product-details h1 {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+            color: #333;
+        }
+        .product-details p {
+            color: #666;
+            margin: 0.5rem 0;
+        }
+        .price {
+            font-size: 1.5rem;
+            color: #e74c3c;
+            margin: 1rem 0;
+        }
+        .form-group {
+            margin: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #333;
+        }
+        .form-group input[type="number"] {
+            width: 100%;
+            max-width: 150px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-group button {
+            padding: 0.75rem 1.5rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .messages {
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .messages ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .messages li {
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .messages .success {
+            background-color: #28a745;
+        }
+        .messages .error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="{{ funko.imagen.url }}" alt="Imagen de {{ funko.nombre }}" class="product-image">
+    <div class="product-details">
+        <h1>{{ funko.nombre }}</h1>
+        <p class="price">{{ funko.precio }} EUR</p>
+        <p>Cantidad disponible: {{ funko.cantidad }}</p>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        <ul>
+            {% for message in messages %}
+            <li class="{% if message.tags == 'error' %}error{% else %}success{% endif %}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cantidad">Cantidad a comprar:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" max="{{ funko.cantidad }}" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Comprar</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+

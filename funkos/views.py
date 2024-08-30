@@ -1,13 +1,15 @@
 # funkos/views.py
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework import filters
 from django.db.models import Q
 from django.urls import reverse
 from .models import Funko, Categoria
 from .serializers import FunkoSerializer, CategoriaSerializer
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 class FunkoListCreate(generics.ListCreateAPIView):
     serializer_class = FunkoSerializer
@@ -61,4 +63,22 @@ def custom_login(request):
                 # Añadir un mensaje de error si la autenticación falla
                 return render(request, 'registration/login.html', {'error': 'Invalid username or password'})
     return render(request, 'registration/login.html')
+
+@login_required
+def comprar_funko(request, pk):
+    funko = get_object_or_404(Funko, pk=pk)
+
+    if request.method == 'POST':
+        cantidad_solicitada = int(request.POST.get('cantidad'))
+
+        if cantidad_solicitada > funko.cantidad:
+            messages.error(request, f"No hay suficiente stock. Disponible: {funko.cantidad}")
+        else:
+            # Reducir la cantidad en el stock
+            funko.cantidad -= cantidad_solicitada
+            funko.save()
+            messages.success(request, f"Has comprado {cantidad_solicitada} de {funko.nombre}")
+            return redirect('funko-list-create')  # Redirige a la lista de Funkos o a otra vista
+
+    return render(request, 'comprar_funko.html', {'funko': funko})
 
