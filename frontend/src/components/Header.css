@@ -1,22 +1,57 @@
 /* src/components/Header.css */
 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
     background-color: #282c34;
-    padding: 0.5rem;
     color: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    width: 50px; /* Ajusta el tamaño según sea necesario */
+    height: auto;
+}
+
+.header-center {
+    flex: 1; /* Esto hace que el centro ocupe el espacio disponible */
     text-align: center;
 }
 
-.header nav ul {
-    list-style: none;
-    padding: 0;
+.header-title {
+    margin: 0;
 }
 
-.header nav ul li {
-    display: inline;
-    margin: 0 1rem;
+.header-right {
+    display: flex;
+    align-items: center;
 }
 
-.header nav ul li a {
+.header-icon {
+    background: none;
+    border: none;
     color: white;
-    text-decoration: none;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 24px;
 }
+
+.header-icon:hover {
+    color: #ddd;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .header-title {
+        display: none; /* Ajusta el tamaño de fuente si es necesario */
+    }
+    .header-logo {
+        width: 50px; /* Ajusta el tamaño de la imagen en pantallas más pequeñas */
+    }
+}
+
