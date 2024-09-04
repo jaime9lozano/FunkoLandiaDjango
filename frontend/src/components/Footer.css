@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem; /* Reducir el relleno horizontal */
+    padding: 0.5rem; /* Reducir el relleno horizontal */
 }
 
 .footer-links {

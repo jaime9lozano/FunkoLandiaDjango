@@ -14,8 +14,10 @@
 }
 
 .header-logo {
-    width: 50px; /* Ajusta el tamaño según sea necesario */
+    width: 60px; /* Ajusta el tamaño según sea necesario */
     height: auto;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .header-center {
@@ -51,7 +53,7 @@
         display: none; /* Ajusta el tamaño de fuente si es necesario */
     }
     .header-logo {
-        width: 50px; /* Ajusta el tamaño de la imagen en pantallas más pequeñas */
+        width: 60px; /* Ajusta el tamaño de la imagen en pantallas más pequeñas */
     }
 }
 

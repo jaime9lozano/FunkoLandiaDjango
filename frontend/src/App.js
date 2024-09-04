@@ -1,19 +1,22 @@
 import './App.css';
-import FunkoList from "./components/FunkoList";
 import Header from "./components/Header";
-import Content from "./components/Content";
 import Footer from "./components/Footer";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import FunkoList from "./components/FunkoList";
+import FunkoDetail from "./components/FunkoDetail";
 
 function App() {
   return (
-      <div className="app">
-          <Header/>
-          <Content>
-              <h2>Bienvenido a la aplicación</h2>
-              <p>Este es el contenido principal.</p>
-          </Content>
-          <Footer/>
-      </div>
+      <Router>
+          <div className="app">
+              <Header />
+              <Routes>
+                  <Route path="/" element={<FunkoList />} />
+                  <Route path="/funko/:id" element={<FunkoDetail />} />
+              </Routes>
+              <Footer />
+          </div>
+      </Router>
   );
 }
 

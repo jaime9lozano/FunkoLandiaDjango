@@ -1,0 +1,21 @@
+/* src/components/FunkoDetail.css */
+.funko-detail {
+    padding: 20px;
+}
+
+.funko-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.funko-detail-image img {
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.funko-detail-info {
+    margin-top: 20px;
+    text-align: center;
+}
