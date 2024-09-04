@@ -9,12 +9,14 @@ function App() {
   return (
       <Router>
           <div className="app">
-              <Header />
-              <Routes>
-                  <Route path="/" element={<FunkoList />} />
-                  <Route path="/funko/:id" element={<FunkoDetail />} />
-              </Routes>
-              <Footer />
+              <Header/>
+              <div className="content">
+                  <Routes>
+                      <Route path="/" element={<FunkoList/>}/>
+                      <Route path="/funko/:id" element={<FunkoDetail/>}/> {/* Ruta para el detalle del Funko */}
+                  </Routes>
+              </div>
+              <Footer/>
           </div>
       </Router>
   );
