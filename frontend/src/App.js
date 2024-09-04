@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import FunkoList from "./components/FunkoList";
 import FunkoDetail from "./components/FunkoDetail";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
               <div className="content">
                   <Routes>
                       <Route path="/" element={<FunkoList/>}/>
-                      <Route path="/funko/:id" element={<FunkoDetail/>}/> {/* Ruta para el detalle del Funko */}
+                      <Route path="/funko/:id" element={<FunkoDetail/>}/>
+                      <Route path="/login" element={<Login />} />
                   </Routes>
               </div>
               <Footer/>
