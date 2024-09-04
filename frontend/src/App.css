@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+/* src/App.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenido ocupe al menos la altura de la ventana */
+}
+
+.main-content {
+  flex: 1; /* Permite que el contenido principal ocupe el espacio restante entre el header y el footer */
+}

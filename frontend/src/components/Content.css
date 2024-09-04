@@ -1,0 +1,6 @@
+/* src/components/Content.css */
+.content {
+    padding: 1rem; /* Ajusta el padding según sea necesario */
+    margin-top: 3rem; /* Margen superior para evitar que quede debajo del header */
+    margin-bottom: 3rem; /* Margen inferior para evitar que quede debajo del footer */
+}
