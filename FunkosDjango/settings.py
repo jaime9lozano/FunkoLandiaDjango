@@ -122,8 +122,20 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
+# Configuración de CORS
+CORS_ALLOW_CREDENTIALS = True  # Permitir envío de credenciales
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    'http://localhost:3000',  # Tu frontend en React
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+    'authorization',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # Incluye tu frontend aquí
 ]
 
 LOGIN_URL = '/login/'

@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { TextField, Button, CircularProgress, Typography, Container, Box } from '@mui/material';
 import './Login.css';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {getCSRFToken} from "../utils/csrf";
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,16 +19,23 @@ const Login = () => {
         setErrorMessage('');
 
         try {
-            // Simula una solicitud de inicio de sesión
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simula una solicitud de 2 segundos
+            const csrfToken = getCSRFToken();  // Obtén el token CSRF de las cookies
+            const response = await axios.post('http://localhost:8000/api/login/', data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken  // Incluye el token CSRF en las cabeceras
+                },
+                withCredentials: true  // Permite enviar las cookies
+            });
 
-            // Aquí puedes implementar la lógica de autenticación real
-            console.log('Login successful:', data);
-
-            // Redirige al usuario o muestra un mensaje de éxito
+            console.log('Login successful:', response.data);
+            // Guarda los datos del usuario en una cookie (puede ser el token o la información que necesites)
+            //Cookies.set('user', JSON.stringify(response.data.username), { expires: 1 });  // Guardamos al usuario logueado en una cookie por 1 día
             navigate('/');
+
         } catch (error) {
-            setErrorMessage('Inicio de sesión fallido. Por favor, inténtalo de nuevo.');
+            console.error('Login failed:', error);
+            setErrorMessage(error.response?.data?.error || 'Inicio de sesión fallido. Por favor, inténtalo de nuevo.');
         } finally {
             setLoading(false);
         }

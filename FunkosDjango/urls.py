@@ -23,9 +23,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     path('api/', include('funkos.urls')),
-    path('login/', custom_login, name='login'),
+    path('api/login/', custom_login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', lambda request: redirect('api/funkos/', permanent=True)),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

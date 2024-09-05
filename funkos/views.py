@@ -1,15 +1,17 @@
 # funkos/views.py
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, get_object_or_404
-from rest_framework import generics, permissions
-from rest_framework import filters
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.urls import reverse
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import filters
+from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
 from .models import Funko, Categoria
 from .serializers import FunkoSerializer, CategoriaSerializer
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+
 
 class FunkoListCreate(generics.ListCreateAPIView):
     serializer_class = FunkoSerializer
@@ -24,10 +26,12 @@ class FunkoListCreate(generics.ListCreateAPIView):
             queryset = queryset.filter(Q(nombre__icontains=nombre))
         return queryset
 
+
 class FunkoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Funko.objects.all()
     serializer_class = FunkoSerializer
     permission_classes = [permissions.DjangoModelPermissionsOrAnonReadOnly]
+
 
 class CategoriaListCreate(generics.ListCreateAPIView):
     serializer_class = CategoriaSerializer
@@ -42,27 +46,36 @@ class CategoriaListCreate(generics.ListCreateAPIView):
             queryset = queryset.filter(Q(nombre__icontains=nombre))
         return queryset
 
+
 class CategoriaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
     permission_classes = [permissions.DjangoModelPermissionsOrAnonReadOnly]
 
+
+@csrf_exempt
+@api_view(['POST'])
 def custom_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')  # Usar .get para evitar errores si la clave no existe
-        password = request.POST.get('password')
-        if username and password:  # Asegurarse de que ambos campos estén presentes
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                if user.is_staff:
-                    return HttpResponseRedirect(reverse('admin:index'))
-                else:
-                    return HttpResponseRedirect('/api/funkos')  # Redirige a la página principal
-            else:
-                # Añadir un mensaje de error si la autenticación falla
-                return render(request, 'registration/login.html', {'error': 'Invalid username or password'})
-    return render(request, 'registration/login.html')
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        response = JsonResponse({'error': 'Both username and password are required'}, status=400)
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
+
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        response = JsonResponse({'message': 'Login successful'}, status=200)
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
+    else:
+        response = JsonResponse({'error': 'Invalid username or password'}, status=400)
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
+
 
 @login_required
 def comprar_funko(request, pk):
@@ -81,4 +94,3 @@ def comprar_funko(request, pk):
             return redirect('funko-list-create')  # Redirige a la lista de Funkos o a otra vista
 
     return render(request, 'comprar_funko.html', {'funko': funko})
-
